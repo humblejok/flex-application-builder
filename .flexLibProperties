@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="org.jok.flex.application.widget.button.IconButton"/>
+    <classEntry path="org.jok.flex.application.widget.button.skin.IconButtonSkin"/>
+    <classEntry path="org.jok.flex.application.widget.button.skin.IconButtonBarButtonSkin"/>
+    <classEntry path="org.jok.flex.application.widget.button.skin.IconButtonBarSkin"/>
+    <classEntry path="org.jok.flex.application.interfaces.IJSONExternalizable"/>
+    <classEntry path="org.jok.flex.application.view.DynamicFormView"/>
+    <classEntry path="org.jok.flex.application.helper.DynamicFormViewHelper"/>
+    <classEntry path="org.jok.flex.application.interfaces.IFormView"/>
+    <classEntry path="org.jok.flex.application.interfaces.IFormViewHelper"/>
+    <classEntry path="org.jok.flex.application.interfaces.IRemoteDataRenderer"/>
+    <classEntry path="org.jok.flex.application.renderer.GroupRemoteDataRenderer"/>
+    <classEntry path="org.jok.flex.application.renderer.VGroupRemoteDataRenderer"/>
+    <classEntry path="org.jok.flex.application.widget.loader.event.LoaderItemCompletedEvent"/>
+    <classEntry path="org.jok.flex.application.caller.model.LazyLoad"/>
+    <classEntry path="org.jok.flex.application.helper.AbstractSelectionHelper"/>
+    <classEntry path="org.jok.flex.application.security.LDAPGroupSecurityImpl"/>
+    <classEntry path="org.jok.flex.application.security.ISecurityModel"/>
+    <classEntry path="org.jok.flex.application.widget.security.LoginPasswordTitleWindow"/>
+    <classEntry path="org.jok.flex.application.provider.IconsProvider"/>
+    <classEntry path="org.jok.flex.application.model.DjangoModel"/>
+    <classEntry path="org.jok.flex.application.model.ImageProvider"/>
+    <classEntry path="org.jok.flex.application.interfaces.IResourceProvider"/>
+    <classEntry path="org.jok.flex.utility.network.GZIPURLLoader"/>
+    <classEntry path="org.jok.flex.utility.network.GZIPSerializationFilter"/>
+    <classEntry path="org.jok.flex.application.security.DJangoSecurityImpl"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

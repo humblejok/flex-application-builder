@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" xmlns:split="org.jok.flex.application.widget.datagrid.split.*" >
+
+<mx:Script>
+<![CDATA[
+
+private var dp:Array = [
+	{ symbol: "ADBE", name: "Adobe Systems Inc.", price: 49.95,high: 40, low: 1, av:23, med: 5 },
+	{ symbol: "MACR", name: "Macromedia Inc.", price: 39.95, high: 41, low: 2, av:24, med:6 },
+	{ symbol: "MSFT", name: "Microsoft Corp.", price: 25.95, high: 42, low: 3, av:25, med:7},
+	{ symbol: "IBM", name: "IBM Corp.", price: 42.55, high: 43, low: 12, av:26, med:8 }
+	];
+	
+	private function childColumnCompare(o1:Object, o2:Object):int
+	{
+		if (o1.high == o2.high)
+			return 0;
+		if (o1.high > o2.high)
+			return -1;
+		else 
+			return 1;
+	}
+
+]]>
+</mx:Script>
+
+<mx:DataGrid id="dg1" initialize="dg1.dataProvider = dp" paddingTop="0" paddingBottom="0" verticalAlign="middle"  width="570" height="171">
+<mx:columns>
+<mx:DataGridColumn headerText="Name" dataField="name" width="140"/>
+<mx:DataGridColumn headerText="Symbol" dataField="symbol" width="60" />
+<split:SplitDataGridColumn headerText="Historical Data" dataField="high" width="200"
+			 headerRenderer="org.jok.flex.application.widget.datagrid.split.SplitDataGridHeader" itemRenderer="org.jok.flex.application.widget.datagrid.split.SplitDataGridItemRenderer"
+			 sortCompareFunction="childColumnCompare">
+	<split:childrenColumns>
+		<split:SplitDataGridChildColumn headerText="High" dataField="high" width="50"/>		
+		<split:SplitDataGridChildColumn headerText="Low" dataField="low" width="50"/>		
+		<split:SplitDataGridChildColumn headerText="Average" dataField="av" width="50"/>				
+		<split:SplitDataGridChildColumn headerText="Median" dataField="med" width="50"/>		
+	</split:childrenColumns>
+</split:SplitDataGridColumn>
+</mx:columns> 
+</mx:DataGrid>
+
+</mx:Application>
+

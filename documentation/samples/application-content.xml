@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<application type="tabbed">
+	<views>
+		<view type="org.jok.flex.application.view.HDynamicSelectorView" helper="org.jok.flex.application.helper.DynamicSelectorViewHelper" id="flagshipSelector" label="Flagship funds selection">
+			<element 	id="fundCombo" type="combo" label="Choose fund:"
+						source="cache" sourceName="topLevelFunds"
+						itemLabel="{0} - {1}" itemLabelFields="cells.fund_name,cells.fund_id"/>
+			<element 	id="reportingDateCombo" type="combo" label="Choose reporting date:"
+						source="cache" sourceName="qualitativeExpectations"
+						filterSource="fundCombo" filterSourceField="cells.fund_id" filteredSourceField="cells.fund_id"
+						itemLabel="{0}" itemLabelFields="cells.reporting_date" itemLabelConverters="com.eim.dwrisk.utility.DataConverter.convertDateToDisplay"/>
+		</view>
+		<view type="com.eim.dwrisk.ui.view.FundDescriptionView" helper="com.eim.dwrisk.ui.helper.FundDescriptionViewHelper" id="flagshipFundDescription" label="Flaship funds description" selector="flagshipSelector">
+			<element id="fundDescription" type="dataprovider" source="element" sourceName="fundCombo" sourceFields="selectedItem"/>
+		</view>
+		<view type="com.eim.dwrisk.ui.view.FundQualitativeView" helper="com.eim.dwrisk.ui.helper.FundQualitativeViewHelper" id="flagshipFundQualitative" label="Flaship funds qualitative data" selector="flagshipSelector">
+			<element id="fundQualitative" type="dataprovider" source="cache" sourceName="qualitativeExpectations" sourceField="">
+				<argument source="element" sourceName="fundCombo" sourceFields="selectedItem.cells.fund_id" match="cells.fund_id"/>
+				<argument source="element" sourceName="reportingDateCombo" sourceFields="selectedItem.cells.reporting_date" match="cells.reporting_date"/>
+			</element>
+		</view>
+		<view type="com.eim.dwrisk.ui.view.FundHistoricChartView" helper="com.eim.dwrisk.ui.helper.FundHistoricChartViewHelper" id="flagshipFundHistoricData" label="Flaship funds historic data" selector="flagshipSelector">
+			<element id="fundRawHistoricData" type="dataprovider" source="remote" sourceName="allFundStatusHist">
+				<argument source="element" sourceName="fundCombo" sourceFields="selectedItem.cells.lead_serie_id"/>
+			</element>
+			<element id="formattedRawHistoricData" type="transform" source="local-element" sourceName="fundRawHistoricData" transformerFunction="transformHistoryFunction"/>
+			<element id="fundHistoricalPerformancesExcelURL" type="value" source="string" sourceName="/dwrisk/fundstatushistxls?ls_id={0}">
+				<argument source="element" sourceName="fundCombo" sourceFields="selectedItem.cells.lead_serie_id"/>
+			</element>
+		</view>
+		<view type="com.eim.dwrisk.ui.view.FundPositionsView" helper="com.eim.dwrisk.ui.helper.FundPositionsViewHelper" id="flagshipFundPositionsData" label="Flaship funds positions data" selector="flagshipSelector">
+			<element id="fundPositions" type="dataprovider" source="remote" sourceName="allFundsActualPositions">
+				<argument source="element" sourceName="fundCombo" sourceFields="selectedItem.cells.lead_serie_id"/>
+				<argument source="element" sourceName="reportingDateCombo" sourceFields="selectedItem.cells.reporting_date" tranformerClass="org.jok.flex.utility.python.JSonPythonConverter" transformerFunction="convertJSonDateToHTTPRequestDate"/>
+			</element>
+			<element id="fundPositionsExcelURL" type="value" source="string" sourceName="/dwrisk/fundspositionsactualxls?ls_id={0}&rp_dat={1}">
+				<argument source="element" sourceName="fundCombo" sourceFields="selectedItem.cells.lead_serie_id"/>
+				<argument source="element" sourceName="reportingDateCombo" sourceFields="selectedItem.cells.reporting_date" tranformerClass="org.jok.flex.utility.python.JSonPythonConverter" transformerFunction="convertJSonDateToHTTPRequestDate"/>
+			</element>
+		</view>
+
+		<!--
+		<view type="FundDescriptionView" name="fundDescriptionFlagship">
+		</view>
+		<view type="QualitativeDataView" name="qualitativeDataFlagship">
+		</view>
+		<view type="HistoricDataView" name="historicDataFlagship">
+		</view>
+		 -->
+	</views>
+	<contents layout="tabbed">
+		<content id="flagshipContent" type="com.eim.dwrisk.ui.view.FlagshipContentView" label="Flagship funds"/>
+	</contents>
+	<!-- 
+	<contents layout="tabbed">
+		<content 	id="flagshipContent" type="selector-controlled"
+					layout="org.jok.flex.application.container.VMenuedHSelectorLayout"
+					label="Flagship Funds" selector="flagshipSelector">
+			<item id="flagshipFundDescription"  label="Fund description"/>
+			<item id="flagshipFundQualitative" label="Qualitative data"/>
+			<item id="flagshipFundHistoricData" label="Historic data"/>
+			<item id="flagshipFundPositionsData" label="Fund position"/>
+		</content>
+	</contents>
+	 -->
+</application>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<staticvalues>
+	<caches>
+		<cache label="lumxFunds" remote="allLumxFunds" field="rows"/>
+		<cache label="topLevelFunds" remote="allTopLevelFunds" field="rows"/>
+		<cache label="qualitativeExpectations" remote="allQualitativeExpectations" field="rows"/>
+	</caches>
+	<values label="users" source="embedded">
+		<value>
+			<label>De Jonckheere Stéphane</label>
+			<data>sdejonckheere@eim.ch</data>
+		</value>
+		<value>
+			<label>Nivet Jérome</label>
+			<data>jnivet@eim.ch</data>
+		</value>
+	</values>
+	<values label="topLevelFundsSelect" source="cache" remote="topLevelFunds">
+		<value>
+			<label>rows.cells.fund_name</label>
+			<data>rows.cells.fund_id</data>
+		</value>
+	</values>
+	<values label="lumxFundsSelect" source="cache" remote="lumxFunds">
+		<value>
+			<label>rows.cells.fund_name</label>
+			<data>rows.cells.fund_id</data>
+		</value>
+	</values>
+	<singlevalues>
+		<value label="intranetBaseURL">INTRANET.HTTP</value>
+		<value label="fundBasePath">/fund/callDetailsPage.do?fund-ID=</value>
+		<value label="indexBasePath">/index/callDetailsPage.do?index-id=</value>
+		<value label="forexBasePath">/forex/callForexDetailPage.do?forex_id=</value>
+		<value label="companyBasePath">/company/callCompanyDetailsPage.do?company_id=</value>
+		<value label="thirdBasePath">/contact/callContactDetailsPage.do?third_id=</value>
+		<value label="classificationBasePath">/fund/callClassificationPage.do?fund-ID=</value>
+		<value label="liquidityBasePath">/fund/callLiquiditiesPage.do?fund-ID=</value>
+		<value label="quoteBasePath">/track/callDetailsPage.do?track-ID=</value>
+		<value label="quoteFundSuffixPath">&amp;fund-ID=</value>
+		<value label="quoteIndexSuffixPath">&amp;index-id=</value>
+	</singlevalues>
+</staticvalues>

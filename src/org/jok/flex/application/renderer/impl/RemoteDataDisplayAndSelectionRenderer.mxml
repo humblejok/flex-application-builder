@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<renderer:HGroupRemoteDataRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:renderer="org.jok.flex.application.renderer.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.DataGrid;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.CloseEvent;
+			import mx.events.DataGridEvent;
+			import mx.managers.CursorManager;
+			import mx.managers.PopUpManager;
+			
+			import org.jok.flex.application.helper.AbstractHelper;
+			import org.jok.flex.application.interfaces.IFormViewHelper;
+			
+			import spark.components.TitleWindow;
+			import spark.skins.spark.ButtonSkin;
+			
+			private var label : String;
+			
+			public var _feederGrid : DataGrid;
+			private var _window : TitleWindow;
+			private var _feederColumn : DataGridColumn;
+			
+			public function closeSelection(event : Event) : void {
+				PopUpManager.removePopUp(_window);
+			}
+			
+			public function handleFeederGridSelection(event : Event) : void {
+				data = _feederGrid.selectedItem[remoteFeederField];
+				executeLabelCall();
+				closeSelection(event);
+			}
+			
+			override public function initializeWithRemote(
+					helper : IFormViewHelper,
+					data : Object,
+					field : XML) : void {
+				super.initializeWithRemote(helper, data, field);
+				
+				this.label = String(field.@label);
+				
+				_feederGrid = new DataGrid();
+				_feederGrid.headerHeight = 0;
+				_feederGrid.percentHeight = 100;
+				_feederGrid.percentWidth = 100;
+				_feederGrid.doubleClickEnabled = true;
+				_feederGrid.addEventListener(MouseEvent.DOUBLE_CLICK, this.handleFeederGridSelection);
+				
+				_feederColumn = new DataGridColumn(String(field.@label));
+				_feederColumn.dataField = this.remoteFeederLabelField;
+				
+				var dgColumns : Array = new Array();
+				dgColumns.push(_feederColumn);
+				_feederGrid.columns = dgColumns;
+				
+				executeLabelCall();
+				executeFeederCall();
+			}
+			
+			public function executeLabelCall() : void {
+				helper.callRemoteForField(
+					this.remoteLabel,
+					this.remoteLabelField,
+					this,
+					"textInput",
+					"text",
+					this.data);
+			}
+			
+			public function executeFeederCall() : void {
+				helper.callRemoteForField(
+					this.remoteFeeder,
+					"",
+					this,
+					"_feederGrid",
+					"dataProvider");
+			}
+
+			protected function selectButton_clickHandler(event:MouseEvent) : void {
+				_window = TitleWindow(PopUpManager.createPopUp(this, TitleWindow,true));
+				_window.title = "Choose " + this.label;
+				_window.addElement(_feederGrid);
+				_window.addEventListener(CloseEvent.CLOSE,this.closeSelection);
+				_window.height = 200;
+				_window.width = 200;
+				PopUpManager.centerPopUp(_window);
+			}
+
+		]]>
+	</fx:Script>
+	<s:TextInput id="textInput" width="95%" editable="false"/>
+	<s:Button id="selectButton" width="5%" label="Set" click="selectButton_clickHandler(event)" skinClass="spark.skins.spark.ButtonSkin"/>
+</renderer:HGroupRemoteDataRenderer>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="400" height="300"
+			   close="titlewindowCloseHandler(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			
+			import org.jok.flex.application.widget.loader.event.LoaderItemCompletedEvent;
+			
+			[Bindable]
+			private var _data : ArrayCollection;
+			
+			public function set data(ac : ArrayCollection) : void {
+				_data = ac;
+			}
+			
+			public function get data() : ArrayCollection {
+				return _data;
+			}
+
+
+			protected function titlewindowCloseHandler(event:CloseEvent) : void {
+				this.dispatchEvent(new Event(LoaderItemCompletedEvent.LOADER_CANCEL_CALLED,true));
+			}
+
+		]]>
+	</fx:Script>
+	<mx:DataGrid id="loadingGrid" width="100%" height="100%" dataProvider="{_data}">
+		<mx:columns>
+			<mx:DataGridColumn id="labelColumn" headerText="Item" dataField="description" width="0.4"/>
+			<mx:DataGridColumn id="statusColumn" headerText="Status" dataField="done" itemRenderer="org.jok.flex.application.widget.loader.LoaderStatusDataGridItemRenderer" width="0.6"/>
+		</mx:columns>
+	</mx:DataGrid>
+</s:TitleWindow>
